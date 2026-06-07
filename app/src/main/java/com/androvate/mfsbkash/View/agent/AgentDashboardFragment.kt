@@ -1,5 +1,4 @@
-package com.androvate.mfsbkash
-
+package com.androvate.mfsbkash.View.agent
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,29 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.R
+import com.androvate.mfsbkash.SessionManager
 import com.androvate.mfsbkash.Viewmodel.AuthViewModel
 import com.androvate.mfsbkash.Viewmodel.TransactionViewModel
-import com.androvate.mfsbkash.databinding.FragmentUserDashboasrdBinding
-import com.androvate.mfsbkash.model.Resource
-import com.google.android.gms.cast.framework.SessionManager
+import com.androvate.mfsbkash.databinding.FragmentAgentDashboardBinding
+import com.androvate.mfsbkash.formatCurrency
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-class UserDashboardFragment : Fragment() {
-    private var _binding: FragmentUserDashboasrdBinding? = null
+class AgentDashboardFragment : Fragment() {
+    private var _binding: FragmentAgentDashboardBinding? = null
     private val binding get() = _binding!!
     private val authViewModel: AuthViewModel by viewModels()
     private val txViewModel: TransactionViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentUserDashboasrdBinding.inflate(inflater, container, false)
+        _binding = FragmentAgentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupUI()
         setupObservers()
         setupClickListeners()
@@ -39,29 +37,25 @@ class UserDashboardFragment : Fragment() {
 
     private fun setupUI() {
         val user = SessionManager.getUser(requireContext())
-        binding.tvUserName.text = "Hello, ${user?.name ?: "User"}!"
-        binding.tvUserPhone.text = user?.phone ?: ""
+        binding.tvAgentName.text = "Agent: ${user?.name ?: ""}"
+        binding.tvAgentPhone.text = user?.phone ?: ""
         binding.tvBalance.text = user?.balance?.formatCurrency() ?: "৳0.00"
-        binding.tvDate.text = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
     }
 
     private fun setupClickListeners() {
-        binding.cardSendMoney.setOnClickListener {
-            findNavController().navigate(R.id.action_userDashboasrdFragment_to_sendMoneyFragment)
-        }
-        binding.cardCashOut.setOnClickListener {
-            findNavController().navigate(R.id.action_userDashboardFragment_to_cashOutFragment)
+        binding.cardCashIn.setOnClickListener {
+            findNavController().navigate(R.id.action_agentDashboardFragment_to_cashInFragment)
         }
         binding.cardHistory.setOnClickListener {
-            findNavController().navigate(R.id.action_userDashboardFragment_to_transactionHistoryFragment)
+            findNavController().navigate(R.id.action_agentDashboardFragment_to_transactionHistoryFragment)
         }
         binding.cardProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_userDashboardFragment_to_profileFragment)
+            findNavController().navigate(R.id.action_agentDashboardFragment_to_profileFragment)
         }
         binding.btnLogout.setOnClickListener {
             authViewModel.logout()
             SessionManager.clear(requireContext())
-            findNavController().navigate(R.id.action_userDashboasrdFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_agentDashboardFragment_to_loginFragment)
         }
         binding.ivRefresh.setOnClickListener { loadData() }
     }
@@ -72,23 +66,14 @@ class UserDashboardFragment : Fragment() {
                 val user = result.data!!
                 SessionManager.saveUser(requireContext(), user)
                 binding.tvBalance.text = user.balance.formatCurrency()
-                binding.tvUserName.text = "Hello, ${user.name}!"
             }
         }
-
         txViewModel.history.observe(viewLifecycleOwner) { result ->
             if (result is Resource.Success) {
                 val list = result.data ?: emptyList()
-                val recent = list.take(3)
-                if (recent.isEmpty()) {
-                    binding.tvNoTransactions.visibility = View.VISIBLE
-                    binding.rvRecentTransactions.visibility = View.GONE
-                } else {
-                    binding.tvNoTransactions.visibility = View.GONE
-                    binding.rvRecentTransactions.visibility = View.VISIBLE
-                    val adapter = com.bkash.mfs.ui.common.TransactionAdapter(recent)
-                    binding.rvRecentTransactions.adapter = adapter
-                }
+                val adapter = com.bkash.mfs.ui.common.TransactionAdapter(list.take(3))
+                binding.rvRecentTransactions.adapter = adapter
+                binding.tvNoTransactions.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }

@@ -1,9 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MFSBkash" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.BkashMFS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bkash_pink</item>
+        <item name="colorPrimaryVariant">@color/bkash_pink_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/accent_teal</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/gray_800</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="android:colorBackground">@color/gray_50</item>
+        <item name="android:statusBarColor">@color/bkash_pink_dark</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.BkashMFS.Body1</item>
+
+        <!-- Material TextInputLayout -->
+        <item name="textInputStyle">@style/Widget.BkashMFS.TextInputLayout</item>
     </style>
 
-    <style name="Theme.MFSBkash" parent="Base.Theme.MFSBkash" />
+    <style name="Theme.BkashMFS.Splash" parent="Theme.BkashMFS">
+        <item name="android:statusBarColor">@color/bkash_pink</item>
+        <item name="android:windowBackground">@color/bkash_pink</item>
+    </style>
+
+    <style name="TextAppearance.BkashMFS.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/gray_800</item>
+    </style>
+
+    <style name="Widget.BkashMFS.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/bkash_pink</item>
+        <item name="hintTextColor">@color/bkash_pink</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="BkashButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/bkash_pink</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="BkashButtonOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/bkash_pink</item>
+        <item name="android:textColor">@color/bkash_pink</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">52dp</item>
+    </style>
+
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="DashboardCardText" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

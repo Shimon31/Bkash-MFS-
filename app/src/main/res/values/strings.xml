@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">MFS(Bkash)</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="send_money">Send Money</string>
+    <string name="cash_out">Cash Out</string>
+    <string name="cash_in">Cash In</string>
+    <string name="deposit">Deposit</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="balance">Balance</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="pin">PIN</string>
+    <string name="amount">Amount</string>
+    <string name="loading">Loading…</string>
+    <string name="manage_users">Manage Users</string>
+    <string name="manage_agents">Manage Agents</string>
+    <string name="all_transactions">All Transactions</string>
+    <string name="register_agent">Register Agent</string>
+    <string name="no_transactions">No transactions yet</string>
 </resources>

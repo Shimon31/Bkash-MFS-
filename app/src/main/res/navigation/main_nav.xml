@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.androvate.mfsbkash.LoginFragment"
+        android:name="com.androvate.mfsbkash.View.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.androvate.mfsbkash.RegisterFragment"
+        android:name="com.androvate.mfsbkash.View.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/sendMoneyFragment"
-        android:name="com.androvate.mfsbkash.SendMoneyFragment"
+        android:name="com.androvate.mfsbkash.View.SendMoneyFragment"
         android:label="fragment_send_money"
         tools:layout="@layout/fragment_send_money" />
     <fragment
@@ -48,4 +48,54 @@
         android:name="com.androvate.mfsbkash.CashoutFragment"
         android:label="fragment_cashout"
         tools:layout="@layout/fragment_cashout" />
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.androvate.mfsbkash.View.TransactionHistoryFragment"
+        android:label="fragment_transaction_history"
+        tools:layout="@layout/fragment_transaction_history" />
+    <fragment
+        android:id="@+id/agentDashboardFragment"
+        android:name="com.androvate.mfsbkash.View.agent.AgentDashboardFragment"
+        android:label="fragment_agent_dashboard"
+        tools:layout="@layout/fragment_agent_dashboard" />
+    <fragment
+        android:id="@+id/cashInFragment"
+        android:name="com.androvate.mfsbkash.View.CashInFragment"
+        android:label="fragment_cash_in"
+        tools:layout="@layout/fragment_cash_in" />
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.androvate.mfsbkash.View.admin.AdminDashboardFragment"
+        android:label="fragment_admin_dashboard"
+        tools:layout="@layout/fragment_admin_dashboard" />
+    <fragment
+        android:id="@+id/manageUsersFragment"
+        android:name="com.androvate.mfsbkash.View.user.ManageUsersFragment"
+        android:label="fragment_manage_users"
+        tools:layout="@layout/fragment_manage_users" />
+    <fragment
+        android:id="@+id/manageAgentsFragment"
+        android:name="com.androvate.mfsbkash.View.agent.ManageAgentsFragment"
+        android:label="fragment_manage_agents"
+        tools:layout="@layout/fragment_manage_agents" />
+    <fragment
+        android:id="@+id/adminDepositFragment"
+        android:name="com.androvate.mfsbkash.View.admin.AdminDepositFragment"
+        android:label="fragment_admin_deposit"
+        tools:layout="@layout/fragment_admin_deposit" />
+    <fragment
+        android:id="@+id/adminTransactionsFragment"
+        android:name="com.androvate.mfsbkash.View.admin.AdminTransactionsFragment"
+        android:label="fragment_admin_transactions"
+        tools:layout="@layout/fragment_admin_transactions" />
+    <fragment
+        android:id="@+id/registerAgentFragment"
+        android:name="com.androvate.mfsbkash.View.agent.RegisterAgentFragment"
+        android:label="fragment_register_agent"
+        tools:layout="@layout/fragment_register_agent" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.androvate.mfsbkash.View.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
