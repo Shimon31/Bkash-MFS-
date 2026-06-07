@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64585392536",
+    "project_id": "bkash-mfs",
+    "storage_bucket": "bkash-mfs.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64585392536:android:c33f73ec157ade40d74bed",
+        "android_client_info": {
+          "package_name": "com.androvate.mfsbkash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmiIiVqrsw8xgtq_hgxbb_1pihIlFgbdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

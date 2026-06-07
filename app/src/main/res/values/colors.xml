@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- bKash Brand Colors -->
+    <color name="bkash_pink">#E2136E</color>
+    <color name="bkash_pink_dark">#B50054</color>
+    <color name="bkash_pink_light">#FF4081</color>
+    <color name="bkash_pink_surface">#FFF0F5</color>
+
+    <!-- Accent -->
+    <color name="accent_teal">#00BCD4</color>
+
+    <!-- Neutrals -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#1A1A2E</color>
+    <color name="gray_50">#F9FAFB</color>
+    <color name="gray_100">#F3F4F6</color>
+    <color name="gray_200">#E5E7EB</color>
+    <color name="gray_400">#9CA3AF</color>
+    <color name="gray_600">#4B5563</color>
+    <color name="gray_800">#1F2937</color>
+
+    <!-- Status -->
+    <color name="colorSuccess">#22C55E</color>
+    <color name="colorError">#EF4444</color>
+    <color name="colorWarning">#F59E0B</color>
+    <color name="colorInfo">#3B82F6</color>
+
+    <!-- Card Colors -->
+    <color name="card_send">#E2136E</color>
+    <color name="card_receive">#22C55E</color>
+    <color name="card_cashout">#F59E0B</color>
+    <color name="card_history">#3B82F6</color>
+    <color name="card_profile">#8B5CF6</color>
+    <color name="card_deposit">#10B981</color>
+    <color name="card_agent">#EC4899</color>
+
+    <!-- Gradient -->
+    <color name="gradient_start">#E2136E</color>
+    <color name="gradient_end">#B50054</color>
+</resources>

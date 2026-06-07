@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.androvate.mfsbkash.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.androvate.mfsbkash.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/userDashboasrdFragment"
+        android:name="com.androvate.mfsbkash.UserDashboasrdFragment"
+        android:label="fragment_user_dashboasrd"
+        tools:layout="@layout/fragment_user_dashboasrd" />
+    <fragment
+        android:id="@+id/sendMoneyFragment"
+        android:name="com.androvate.mfsbkash.SendMoneyFragment"
+        android:label="fragment_send_money"
+        tools:layout="@layout/fragment_send_money" />
+</navigation>
