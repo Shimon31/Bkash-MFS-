@@ -6,9 +6,6 @@ import com.androvate.mfsbkash.databinding.FragmentCashInBinding
 import com.androvate.mfsbkash.formatCurrency
 import com.androvate.mfsbkash.showSuccessDialog
 import com.androvate.mfsbkash.showToast
-
-package com.bkash.mfs.ui.agent
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +13,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.model.Resource
 
 
 class CashInFragment : Fragment() {

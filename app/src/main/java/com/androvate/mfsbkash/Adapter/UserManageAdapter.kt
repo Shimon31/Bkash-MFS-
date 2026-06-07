@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.androvate.mfsbkash.R
+import com.androvate.mfsbkash.databinding.ItemUserManageBinding
+import com.androvate.mfsbkash.formatCurrency
 import com.androvate.mfsbkash.model.User
 
 class UserManageAdapter(

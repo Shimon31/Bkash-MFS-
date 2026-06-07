@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.androvate.mfsbkash.Viewmodel.AuthViewModel
 import com.androvate.mfsbkash.databinding.FragmentRegisterAgentBinding
+import com.androvate.mfsbkash.model.Resource
 import com.androvate.mfsbkash.showToast
 
 class RegisterAgentFragment : Fragment() {

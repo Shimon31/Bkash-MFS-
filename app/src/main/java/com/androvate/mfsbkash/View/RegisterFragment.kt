@@ -21,7 +21,11 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: AuthViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,11 +45,22 @@ class RegisterFragment : Fragment() {
             val confirmPass = binding.etConfirmPassword.text.toString().trim()
             val pin = binding.etPin.text.toString().trim()
 
-            if (name.isEmpty()) { binding.tilName.error = "Enter name"; return@setOnClickListener }
-            if (phone.isEmpty() || phone.length < 11) { binding.tilPhone.error = "Enter valid phone (11 digits)"; return@setOnClickListener }
-            if (password.isEmpty() || password.length < 6) { binding.tilPassword.error = "Password must be 6+ chars"; return@setOnClickListener }
-            if (password != confirmPass) { binding.tilConfirmPassword.error = "Passwords don't match"; return@setOnClickListener }
-            if (pin.isEmpty() || pin.length != 5) { binding.tilPin.error = "PIN must be 5 digits"; return@setOnClickListener }
+            if (name.isEmpty()) {
+                binding.tilName.error = "Enter name"; return@setOnClickListener
+            }
+            if (phone.isEmpty() || phone.length < 11) {
+                binding.tilPhone.error = "Enter valid phone (11 digits)"; return@setOnClickListener
+            }
+            if (password.isEmpty() || password.length < 6) {
+                binding.tilPassword.error = "Password must be 6+ chars"; return@setOnClickListener
+            }
+            if (password != confirmPass) {
+                binding.tilConfirmPassword.error =
+                    "Passwords don't match"; return@setOnClickListener
+            }
+            if (pin.isEmpty() || pin.length != 5) {
+                binding.tilPin.error = "PIN must be 5 digits"; return@setOnClickListener
+            }
 
             clearErrors()
             viewModel.registerUser(name, phone, password, pin)
@@ -69,12 +84,14 @@ class RegisterFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnRegister.isEnabled = false
                 }
+
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnRegister.isEnabled = true
                     requireContext().showToast("Registration successful! Please login.")
                     findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
+
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnRegister.isEnabled = true

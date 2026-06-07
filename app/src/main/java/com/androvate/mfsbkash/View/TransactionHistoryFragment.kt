@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.Adapter.TransactionAdapter
 import com.androvate.mfsbkash.SessionManager
 import com.androvate.mfsbkash.Viewmodel.TransactionViewModel
 import com.androvate.mfsbkash.databinding.FragmentTransactionHistoryBinding
+import com.androvate.mfsbkash.model.Resource
 
 
 class TransactionHistoryFragment : Fragment() {

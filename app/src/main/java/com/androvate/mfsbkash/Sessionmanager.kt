@@ -4,6 +4,7 @@ package com.androvate.mfsbkash
 import android.content.Context
 import android.content.SharedPreferences
 import com.androvate.mfsbkash.model.User
+import com.google.gson.Gson
 
 
 object SessionManager {

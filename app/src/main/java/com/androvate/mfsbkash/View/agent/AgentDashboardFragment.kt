@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.Adapter.TransactionAdapter
 import com.androvate.mfsbkash.R
 import com.androvate.mfsbkash.SessionManager
 import com.androvate.mfsbkash.Viewmodel.AuthViewModel
 import com.androvate.mfsbkash.Viewmodel.TransactionViewModel
 import com.androvate.mfsbkash.databinding.FragmentAgentDashboardBinding
 import com.androvate.mfsbkash.formatCurrency
+import com.androvate.mfsbkash.model.Resource
 
 
 class AgentDashboardFragment : Fragment() {
@@ -71,7 +73,7 @@ class AgentDashboardFragment : Fragment() {
         txViewModel.history.observe(viewLifecycleOwner) { result ->
             if (result is Resource.Success) {
                 val list = result.data ?: emptyList()
-                val adapter = com.bkash.mfs.ui.common.TransactionAdapter(list.take(3))
+                val adapter = TransactionAdapter(list.take(3))
                 binding.rvRecentTransactions.adapter = adapter
                 binding.tvNoTransactions.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             }

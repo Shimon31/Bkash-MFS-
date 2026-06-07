@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.androidx.fragment)
-    implementation(libs.firebase.perf.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,12 +65,17 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-// Firebase BOM
-    implementation(platform(libs.firebase.bom))
+// Firebase BoM (ONLY ONCE)
+    implementation(platform("com.google.firebase:firebase-bom:34.14.0"))
+
+// Firebase services (NO versions)
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
-    implementation(libs.firebase.database)
+    implementation("com.google.firebase:firebase-database")
+
+// Performance Monitoring (FIXED)
+    implementation("com.google.firebase:firebase-perf")
 
 // Coroutines
     implementation(libs.kotlinx.coroutines.android)
@@ -90,5 +94,7 @@ dependencies {
 
 // Lottie
     implementation(libs.lottie)
+
+    implementation("com.google.code.gson:gson:2.14.0")
 
 }

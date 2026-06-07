@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.Adapter.TransactionAdapter
 import com.androvate.mfsbkash.R
 import com.androvate.mfsbkash.SessionManager
 import com.androvate.mfsbkash.Viewmodel.AuthViewModel
 import com.androvate.mfsbkash.Viewmodel.TransactionViewModel
-import com.androvate.mfsbkash.databinding.FragmentUserDashboasrdBinding
+import com.androvate.mfsbkash.databinding.FragmentUserDashboardBinding
 import com.androvate.mfsbkash.formatCurrency
 import com.androvate.mfsbkash.model.Resource
 
@@ -21,13 +22,13 @@ import java.util.Date
 import java.util.Locale
 
 class UserDashboardFragment : Fragment() {
-    private var _binding: FragmentUserDashboasrdBinding? = null
+    private var _binding: FragmentUserDashboardBinding? = null
     private val binding get() = _binding!!
     private val authViewModel: AuthViewModel by viewModels()
     private val txViewModel: TransactionViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentUserDashboasrdBinding.inflate(inflater, container, false)
+        _binding = FragmentUserDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,10 +50,10 @@ class UserDashboardFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.cardSendMoney.setOnClickListener {
-            findNavController().navigate(R.id.action_userDashboasrdFragment_to_sendMoneyFragment)
+            findNavController().navigate(R.id.action_userDashboardFragment_to_sendMoneyFragment)
         }
         binding.cardCashOut.setOnClickListener {
-            findNavController().navigate(R.id.action_userDashboardFragment_to_cashOutFragment)
+            findNavController().navigate(R.id.action_userDashboardFragment_to_cashoutFragment)
         }
         binding.cardHistory.setOnClickListener {
             findNavController().navigate(R.id.action_userDashboardFragment_to_transactionHistoryFragment)
@@ -63,7 +64,7 @@ class UserDashboardFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             authViewModel.logout()
             SessionManager.clear(requireContext())
-            findNavController().navigate(R.id.action_userDashboasrdFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_userDashboardFragment_to_loginFragment)
         }
         binding.ivRefresh.setOnClickListener { loadData() }
     }
@@ -88,7 +89,7 @@ class UserDashboardFragment : Fragment() {
                 } else {
                     binding.tvNoTransactions.visibility = View.GONE
                     binding.rvRecentTransactions.visibility = View.VISIBLE
-                    val adapter = com.bkash.mfs.ui.common.TransactionAdapter(recent)
+                    val adapter = TransactionAdapter(recent)
                     binding.rvRecentTransactions.adapter = adapter
                 }
             }

@@ -98,7 +98,7 @@ class LoginFragment : Fragment() {
         val action = when (role) {
             UserRole.ADMIN -> R.id.action_loginFragment_to_adminDashboardFragment
             UserRole.AGENT -> R.id.action_loginFragment_to_agentDashboardFragment
-            else -> R.id.action_loginFragment_to_userDashboasrdFragment
+            else -> R.id.action_loginFragment_to_userDashboardFragment
         }
         findNavController().navigate(action)
     }
