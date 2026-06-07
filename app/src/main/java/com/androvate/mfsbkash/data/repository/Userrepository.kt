@@ -1,6 +1,5 @@
 package com.androvate.mfsbkash.data.repository
 
-
 import com.androvate.mfsbkash.data.model.Resource
 import com.androvate.mfsbkash.data.model.User
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,7 +15,7 @@ class UserRepository {
             val list = snap.documents.mapNotNull { it.toObject(User::class.java) }
             Resource.Success(list)
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Error")
+            Resource.Error(e.message ?: "Error fetching users")
         }
     }
 
@@ -26,28 +25,7 @@ class UserRepository {
             val list = snap.documents.mapNotNull { it.toObject(User::class.java) }
             Resource.Success(list)
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Error")
-        }
-    }
-
-    suspend fun getAllUsersAndAgents(): Resource<List<User>> {
-        return try {
-            val snap = usersCollection.get().await()
-            val list = snap.documents
-                .mapNotNull { it.toObject(User::class.java) }
-                .filter { it.role != "admin" }
-            Resource.Success(list)
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "Error")
-        }
-    }
-
-    suspend fun toggleUserStatus(uid: String, isActive: Boolean): Resource<Boolean> {
-        return try {
-            usersCollection.document(uid).update("isActive", isActive).await()
-            Resource.Success(true)
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "Error")
+            Resource.Error(e.message ?: "Error fetching agents")
         }
     }
 
@@ -61,12 +39,30 @@ class UserRepository {
         }
     }
 
+    suspend fun toggleUserStatus(uid: String, isActive: Boolean): Resource<Boolean> {
+        return try {
+            usersCollection.document(uid).update("isActive", isActive).await()
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to update status")
+        }
+    }
+
     suspend fun updateUserBalance(uid: String, balance: Double): Resource<Boolean> {
         return try {
             usersCollection.document(uid).update("balance", balance).await()
             Resource.Success(true)
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Error")
+            Resource.Error(e.message ?: "Failed to update balance")
+        }
+    }
+
+    suspend fun deleteUser(uid: String): Resource<Boolean> {
+        return try {
+            usersCollection.document(uid).delete().await()
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to delete user")
         }
     }
 
@@ -77,13 +73,15 @@ class UserRepository {
             val totalUsers = allUsers.count { it.role == "user" }
             val totalAgents = allUsers.count { it.role == "agent" }
             val totalBalance = allUsers.sumOf { it.balance }
-            Resource.Success(mapOf(
-                "totalUsers" to totalUsers,
-                "totalAgents" to totalAgents,
-                "totalBalance" to totalBalance
-            ))
+            Resource.Success(
+                mapOf(
+                    "totalUsers" to totalUsers,
+                    "totalAgents" to totalAgents,
+                    "totalBalance" to totalBalance
+                )
+            )
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Error")
+            Resource.Error(e.message ?: "Error fetching stats")
         }
     }
 }

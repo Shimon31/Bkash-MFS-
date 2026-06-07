@@ -96,18 +96,32 @@ class TransactionRepository {
 
     suspend fun cashIn(agent: User, userPhone: String, amount: Double): Resource<Transaction> {
         return try {
-            if (amount < MIN_TRANSACTION) return Resource.Error("Minimum amount is ৳$MIN_TRANSACTION")
-            if (agent.balance < amount) return Resource.Error("Agent has insufficient balance")
 
-            val userResult = getUserByPhone(userPhone)
-            if (userResult is Resource.Error) return Resource.Error(userResult.message ?: "User not found")
+            val phone = normalizePhone(userPhone)
+
+            if (amount < MIN_TRANSACTION) {
+                return Resource.Error("Minimum ৳$MIN_TRANSACTION required")
+            }
+
+            if (agent.balance < amount) {
+                return Resource.Error("Insufficient balance")
+            }
+
+            val userResult = getUserByPhone(phone)
+
+            if (userResult is Resource.Error) {
+                return Resource.Error("User not found")
+            }
+
             val user = userResult.data!!
 
-            val txId = "TXN${UUID.randomUUID().toString().take(8).uppercase()}"
+            val txId = "TXN${System.currentTimeMillis()}"
 
             db.runTransaction { tx ->
+
                 val agentRef = usersCollection.document(agent.uid)
                 val userRef = usersCollection.document(user.uid)
+
                 tx.update(agentRef, "balance", agent.balance - amount)
                 tx.update(userRef, "balance", user.balance + amount)
 
@@ -125,11 +139,15 @@ class TransactionRepository {
                     fee = 0.0,
                     balanceAfter = user.balance + amount
                 )
+
                 tx.set(txCollection.document(txId), transaction)
+
             }.await()
 
-            val txDoc = txCollection.document(txId).get().await()
-            Resource.Success(txDoc.toObject(Transaction::class.java)!!)
+            val result = txCollection.document(txId).get().await()
+
+            Resource.Success(result.toObject(Transaction::class.java)!!)
+
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Cash In failed")
         }
@@ -252,4 +270,11 @@ class TransactionRepository {
             Resource.Error(e.message ?: "Error fetching transactions")
         }
     }
+    private fun normalizePhone(phone: String): String {
+        return phone
+            .replace("+88", "")
+            .replace(" ", "")
+            .trim()
+    }
+
 }

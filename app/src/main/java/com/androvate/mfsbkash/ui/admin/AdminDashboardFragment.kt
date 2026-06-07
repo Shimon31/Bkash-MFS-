@@ -1,19 +1,20 @@
 package com.androvate.mfsbkash.ui.admin
 
-import com.androvate.mfsbkash.ui.auth.AuthViewModel
-import com.androvate.mfsbkash.ui.common.TransactionViewModel
-import com.androvate.mfsbkash.databinding.FragmentAdminDashboardBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.androvate.mfsbkash.R
+import com.androvate.mfsbkash.data.model.Resource
+import com.androvate.mfsbkash.databinding.FragmentAdminDashboardBinding
+import com.androvate.mfsbkash.ui.auth.AuthViewModel
+import com.androvate.mfsbkash.ui.common.TransactionViewModel
 import com.androvate.mfsbkash.utils.SessionManager
 import com.androvate.mfsbkash.utils.formatCurrency
-import com.androvate.mfsbkash.data.model.Resource
 
 class AdminDashboardFragment : Fragment() {
     private var _binding: FragmentAdminDashboardBinding? = null
@@ -22,7 +23,9 @@ class AdminDashboardFragment : Fragment() {
     private val adminViewModel: AdminViewModel by viewModels()
     private val txViewModel: TransactionViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentAdminDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,18 +60,32 @@ class AdminDashboardFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             authViewModel.logout()
             SessionManager.clear(requireContext())
-            findNavController().navigate(R.id.action_adminDashboardFragment_to_loginFragment)
+            findNavController().navigate(
+                R.id.action_adminDashboardFragment_to_loginFragment,
+                null,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.adminDashboardFragment, true)
+                    .build()
+            )
         }
         binding.ivRefresh.setOnClickListener { loadData() }
     }
 
     private fun setupObservers() {
         adminViewModel.stats.observe(viewLifecycleOwner) { result ->
-            if (result is Resource.Success) {
-                val stats = result.data!!
-                binding.tvTotalUsers.text = stats["totalUsers"].toString()
-                binding.tvTotalAgents.text = stats["totalAgents"].toString()
-                binding.tvTotalBalance.text = (stats["totalBalance"] as Double).formatCurrency()
+            when (result) {
+                is Resource.Success -> {
+                    val stats = result.data!!
+                    binding.tvTotalUsers.text = stats["totalUsers"].toString()
+                    binding.tvTotalAgents.text = stats["totalAgents"].toString()
+                    binding.tvTotalBalance.text = (stats["totalBalance"] as Double).formatCurrency()
+                }
+                is Resource.Error -> {
+                    binding.tvTotalUsers.text = "—"
+                    binding.tvTotalAgents.text = "—"
+                    binding.tvTotalBalance.text = "—"
+                }
+                else -> {}
             }
         }
         txViewModel.allTransactions.observe(viewLifecycleOwner) { result ->

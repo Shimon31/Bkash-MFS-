@@ -1,6 +1,5 @@
 package com.androvate.mfsbkash.ui.auth
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +20,9 @@ class AuthViewModel : ViewModel() {
 
     private val _currentUser = MutableLiveData<Resource<User>>()
     val currentUser: LiveData<Resource<User>> = _currentUser
+
+    private val _adminSeedResult = MutableLiveData<Resource<User>>()
+    val adminSeedResult: LiveData<Resource<User>> = _adminSeedResult
 
     fun login(phone: String, password: String) {
         _loginResult.value = Resource.Loading()
@@ -43,6 +45,13 @@ class AuthViewModel : ViewModel() {
         }
     }
 
+    fun seedAdmin(phone: String, password: String, pin: String, name: String) {
+        _adminSeedResult.value = Resource.Loading()
+        viewModelScope.launch {
+            _adminSeedResult.value = authRepository.seedAdminIfNeeded(phone, password, pin, name)
+        }
+    }
+
     fun fetchCurrentUser() {
         _currentUser.value = Resource.Loading()
         viewModelScope.launch {
@@ -51,8 +60,6 @@ class AuthViewModel : ViewModel() {
     }
 
     fun logout() = authRepository.logout()
-
     fun isLoggedIn() = authRepository.isLoggedIn()
-
     fun getCurrentUid() = authRepository.getCurrentUid()
 }

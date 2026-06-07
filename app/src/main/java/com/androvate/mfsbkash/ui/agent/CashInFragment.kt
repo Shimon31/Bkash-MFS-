@@ -16,11 +16,15 @@ import com.androvate.mfsbkash.utils.showSuccessDialog
 import com.androvate.mfsbkash.utils.showToast
 
 class CashInFragment : Fragment() {
+
     private var _binding: FragmentCashInBinding? = null
     private val binding get() = _binding!!
     private val viewModel: TransactionViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentCashInBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -29,47 +33,71 @@ class CashInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val agent = SessionManager.getUser(requireContext())
-        binding.tvAgentBalance.text = "Your Balance: ${agent?.balance?.formatCurrency()}"
 
-        binding.ivBack.setOnClickListener { findNavController().navigateUp() }
+        binding.tvAgentBalance.text =
+            "Balance: ${agent?.balance ?: 0.0}"
+
+        binding.ivBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         binding.btnCashIn.setOnClickListener {
-            val userPhone = binding.etUserPhone.text.toString().trim()
+
+            val phone = binding.etUserPhone.text.toString().trim()
             val amountStr = binding.etAmount.text.toString().trim()
 
-            if (userPhone.isEmpty() || userPhone.length < 11) {
-                binding.tilUserPhone.error = "Enter valid phone number"; return@setOnClickListener
+            if (phone.isEmpty()) {
+                binding.tilUserPhone.error = "Enter phone"
+                return@setOnClickListener
             }
-            if (amountStr.isEmpty()) {
-                binding.tilAmount.error = "Enter amount"; return@setOnClickListener
+
+            val amount = amountStr.toDoubleOrNull()
+            if (amount == null || amount <= 0) {
+                binding.tilAmount.error = "Enter valid amount"
+                return@setOnClickListener
             }
+
             binding.tilUserPhone.error = null
             binding.tilAmount.error = null
 
-            val amount = amountStr.toDoubleOrNull() ?: return@setOnClickListener
-            if (agent != null) viewModel.cashIn(agent, userPhone, amount)
+            if (agent != null) {
+                viewModel.cashIn(agent, phone, amount)
+            }
         }
 
+        observeCashIn()
+    }
+
+    private fun observeCashIn() {
         viewModel.transactionResult.observe(viewLifecycleOwner) { result ->
             when (result) {
+
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnCashIn.isEnabled = false
                 }
+
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnCashIn.isEnabled = true
+
                     val tx = result.data!!
+
                     requireContext().showSuccessDialog(
-                        title = "Cash In Successful!",
-                        message = "৳${tx.amount} added to ${tx.receiverPhone}\nTxn ID: ${tx.transactionId}",
-                        onDismiss = { findNavController().navigateUp() }
-                    )
+                        title = "Success",
+                        message = "৳${tx.amount} sent to ${tx.receiverPhone}"
+                    ) {
+                        findNavController().navigateUp()
+                    }
                 }
+
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnCashIn.isEnabled = true
-                    requireContext().showToast(result.message ?: "Failed")
+
+                    requireContext().showToast(
+                        result.message ?: "User not found"
+                    )
                 }
             }
         }

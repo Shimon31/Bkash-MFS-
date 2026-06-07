@@ -13,6 +13,7 @@ import com.androvate.mfsbkash.data.repository.TransactionRepository
 import kotlinx.coroutines.launch
 
 class TransactionViewModel : ViewModel() {
+
     private val txRepository = TransactionRepository()
 
     private val _transactionResult = MutableLiveData<Resource<Transaction>>()
@@ -25,44 +26,93 @@ class TransactionViewModel : ViewModel() {
     val allTransactions: LiveData<Resource<List<Transaction>>> = _allTransactions
 
     fun sendMoney(sender: User, receiverPhone: String, amount: Double, pin: String) {
+
         _transactionResult.value = Resource.Loading()
+
         viewModelScope.launch {
-            _transactionResult.value = txRepository.sendMoney(sender, receiverPhone, amount, pin)
+            try {
+                val result = txRepository.sendMoney(sender, receiverPhone, amount, pin)
+                _transactionResult.value = result
+            } catch (e: Exception) {
+                _transactionResult.value =
+                    Resource.Error(e.message ?: "Send money failed")
+            }
         }
     }
 
     fun cashIn(agent: User, userPhone: String, amount: Double) {
+
         _transactionResult.value = Resource.Loading()
+
         viewModelScope.launch {
-            _transactionResult.value = txRepository.cashIn(agent, userPhone, amount)
+            try {
+                val result = txRepository.cashIn(agent, userPhone, amount)
+                _transactionResult.value = result
+            } catch (e: Exception) {
+                _transactionResult.value =
+                    Resource.Error(e.message ?: "Cash In failed")
+            }
         }
     }
+
 
     fun cashOut(user: User, agentPhone: String, amount: Double, pin: String) {
+
         _transactionResult.value = Resource.Loading()
+
         viewModelScope.launch {
-            _transactionResult.value = txRepository.cashOut(user, agentPhone, amount, pin)
+            try {
+                val result = txRepository.cashOut(user, agentPhone, amount, pin)
+                _transactionResult.value = result
+            } catch (e: Exception) {
+                _transactionResult.value =
+                    Resource.Error(e.message ?: "Cash Out failed")
+            }
         }
     }
+
 
     fun deposit(admin: User, userPhone: String, amount: Double) {
+
         _transactionResult.value = Resource.Loading()
+
         viewModelScope.launch {
-            _transactionResult.value = txRepository.deposit(admin, userPhone, amount)
+            try {
+                val result = txRepository.deposit(admin, userPhone, amount)
+                _transactionResult.value = result
+            } catch (e: Exception) {
+                _transactionResult.value =
+                    Resource.Error(e.message ?: "Deposit failed")
+            }
         }
     }
 
+
     fun fetchHistory(userId: String) {
+
         _history.value = Resource.Loading()
+
         viewModelScope.launch {
-            _history.value = txRepository.getTransactionHistory(userId)
+            try {
+                _history.value = txRepository.getTransactionHistory(userId)
+            } catch (e: Exception) {
+                _history.value =
+                    Resource.Error(e.message ?: "History failed")
+            }
         }
     }
 
     fun fetchAllTransactions() {
+
         _allTransactions.value = Resource.Loading()
+
         viewModelScope.launch {
-            _allTransactions.value = txRepository.getAllTransactions()
+            try {
+                _allTransactions.value = txRepository.getAllTransactions()
+            } catch (e: Exception) {
+                _allTransactions.value =
+                    Resource.Error(e.message ?: "Failed")
+            }
         }
     }
 }

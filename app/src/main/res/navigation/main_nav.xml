@@ -5,144 +5,198 @@
     android:id="@+id/main_nav"
     app:startDestination="@id/loginFragment">
 
+    <!-- ─────────────── AUTH ─────────────── -->
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.androvate.mfsbkash.ui.auth.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
+
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"/>
         <action
             android:id="@+id/action_loginFragment_to_userDashboardFragment"
-            app:destination="@id/userDashboardFragment" />
+            app:destination="@id/userDashboardFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_loginFragment_to_adminDashboardFragment"
-            app:destination="@id/adminDashboardFragment" />
+            app:destination="@id/adminDashboardFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_loginFragment_to_agentDashboardFragment"
-            app:destination="@id/agentDashboardFragment" />
+            app:destination="@id/agentDashboardFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+        <!-- One-time admin setup — can be removed after admin is created -->
+        <action
+            android:id="@+id/action_loginFragment_to_adminSetupFragment"
+            app:destination="@id/adminSetupFragment"/>
     </fragment>
+
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.androvate.mfsbkash.ui.auth.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
+
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
+
+    <!-- First-time admin account creation screen -->
+    <fragment
+        android:id="@+id/adminSetupFragment"
+        android:name="com.androvate.mfsbkash.ui.auth.AdminSetupFragment"
+        android:label="Admin Setup"/>
+
+    <!-- ─────────────── USER ─────────────── -->
+
     <fragment
         android:id="@+id/userDashboardFragment"
         android:name="com.androvate.mfsbkash.ui.user.UserDashboardFragment"
         android:label="fragment_user_dashboard"
-        tools:layout="@layout/fragment_user_dashboard" >
+        tools:layout="@layout/fragment_user_dashboard">
+
         <action
             android:id="@+id/action_userDashboardFragment_to_sendMoneyFragment"
-            app:destination="@id/sendMoneyFragment" />
-        <action
-            android:id="@+id/action_userDashboardFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/sendMoneyFragment"/>
         <action
             android:id="@+id/action_userDashboardFragment_to_cashoutFragment"
-            app:destination="@id/cashoutFragment" />
+            app:destination="@id/cashoutFragment"/>
         <action
             android:id="@+id/action_userDashboardFragment_to_transactionHistoryFragment"
-            app:destination="@id/transactionHistoryFragment" />
+            app:destination="@id/transactionHistoryFragment"/>
         <action
             android:id="@+id/action_userDashboardFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"/>
+        <action
+            android:id="@+id/action_userDashboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/userDashboardFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
+
     <fragment
         android:id="@+id/sendMoneyFragment"
         android:name="com.androvate.mfsbkash.ui.user.SendMoneyFragment"
         android:label="fragment_send_money"
-        tools:layout="@layout/fragment_send_money" />
+        tools:layout="@layout/fragment_send_money"/>
+
     <fragment
         android:id="@+id/cashoutFragment"
         android:name="com.androvate.mfsbkash.ui.user.CashOutFragment"
         android:label="fragment_cashout"
-        tools:layout="@layout/fragment_cashout" />
-    <fragment
-        android:id="@+id/transactionHistoryFragment"
-        android:name="com.androvate.mfsbkash.ui.common.TransactionHistoryFragment"
-        android:label="fragment_transaction_history"
-        tools:layout="@layout/fragment_transaction_history" />
+        tools:layout="@layout/fragment_cashout"/>
+
+    <!-- ─────────────── AGENT ─────────────── -->
+
     <fragment
         android:id="@+id/agentDashboardFragment"
         android:name="com.androvate.mfsbkash.ui.agent.AgentDashboardFragment"
         android:label="fragment_agent_dashboard"
-        tools:layout="@layout/fragment_agent_dashboard" >
+        tools:layout="@layout/fragment_agent_dashboard">
+
         <action
             android:id="@+id/action_agentDashboardFragment_to_cashInFragment"
-            app:destination="@id/cashInFragment" />
+            app:destination="@id/cashInFragment"/>
         <action
             android:id="@+id/action_agentDashboardFragment_to_transactionHistoryFragment"
-            app:destination="@id/transactionHistoryFragment" />
+            app:destination="@id/transactionHistoryFragment"/>
         <action
             android:id="@+id/action_agentDashboardFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"/>
         <action
             android:id="@+id/action_agentDashboardFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/agentDashboardFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
+
     <fragment
         android:id="@+id/cashInFragment"
         android:name="com.androvate.mfsbkash.ui.agent.CashInFragment"
         android:label="fragment_cash_in"
-        tools:layout="@layout/fragment_cash_in" />
+        tools:layout="@layout/fragment_cash_in"/>
+
+    <!-- ─────────────── ADMIN ─────────────── -->
+
     <fragment
         android:id="@+id/adminDashboardFragment"
         android:name="com.androvate.mfsbkash.ui.admin.AdminDashboardFragment"
         android:label="fragment_admin_dashboard"
-        tools:layout="@layout/fragment_admin_dashboard" >
+        tools:layout="@layout/fragment_admin_dashboard">
+
         <action
             android:id="@+id/action_adminDashboardFragment_to_manageUsersFragment"
-            app:destination="@id/manageUsersFragment" />
+            app:destination="@id/manageUsersFragment"/>
         <action
             android:id="@+id/action_adminDashboardFragment_to_manageAgentsFragment"
-            app:destination="@id/manageAgentsFragment" />
+            app:destination="@id/manageAgentsFragment"/>
         <action
             android:id="@+id/action_adminDashboardFragment_to_adminDepositFragment"
-            app:destination="@id/adminDepositFragment" />
+            app:destination="@id/adminDepositFragment"/>
         <action
             android:id="@+id/action_adminDashboardFragment_to_adminTransactionsFragment"
-            app:destination="@id/adminTransactionsFragment" />
-        <action
-            android:id="@+id/action_adminDashboardFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/adminTransactionsFragment"/>
         <action
             android:id="@+id/action_adminDashboardFragment_to_registerAgentFragment"
-            app:destination="@id/registerAgentFragment" />
+            app:destination="@id/registerAgentFragment"/>
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/adminDashboardFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
+
     <fragment
         android:id="@+id/manageUsersFragment"
         android:name="com.androvate.mfsbkash.ui.admin.ManageUsersFragment"
         android:label="fragment_manage_users"
-        tools:layout="@layout/fragment_manage_users" />
+        tools:layout="@layout/fragment_manage_users"/>
+
     <fragment
         android:id="@+id/manageAgentsFragment"
         android:name="com.androvate.mfsbkash.ui.admin.ManageAgentsFragment"
         android:label="fragment_manage_agents"
-        tools:layout="@layout/fragment_manage_agents" />
+        tools:layout="@layout/fragment_manage_agents"/>
+
     <fragment
         android:id="@+id/adminDepositFragment"
         android:name="com.androvate.mfsbkash.ui.admin.AdminDepositFragment"
         android:label="fragment_admin_deposit"
-        tools:layout="@layout/fragment_admin_deposit" />
+        tools:layout="@layout/fragment_admin_deposit"/>
+
     <fragment
         android:id="@+id/adminTransactionsFragment"
         android:name="com.androvate.mfsbkash.ui.admin.AdminTransactionsFragment"
         android:label="fragment_admin_transactions"
-        tools:layout="@layout/fragment_admin_transactions" />
+        tools:layout="@layout/fragment_admin_transactions"/>
+
     <fragment
         android:id="@+id/registerAgentFragment"
         android:name="com.androvate.mfsbkash.ui.admin.RegisterAgentFragment"
         android:label="fragment_register_agent"
-        tools:layout="@layout/fragment_register_agent" />
+        tools:layout="@layout/fragment_register_agent"/>
+
+    <!-- ─────────────── COMMON ─────────────── -->
+
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.androvate.mfsbkash.ui.common.TransactionHistoryFragment"
+        android:label="fragment_transaction_history"
+        tools:layout="@layout/fragment_transaction_history"/>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.androvate.mfsbkash.ui.common.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile"/>
+
 </navigation>
