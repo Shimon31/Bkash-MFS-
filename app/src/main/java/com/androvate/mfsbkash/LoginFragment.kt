@@ -11,6 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.androvate.mfsbkash.Viewmodel.AuthViewModel
 import com.androvate.mfsbkash.databinding.FragmentLoginBinding
+import com.androvate.mfsbkash.model.Resource
+import com.androvate.mfsbkash.model.UserRole
+
 
 
 class LoginFragment : Fragment() {
@@ -93,7 +96,7 @@ class LoginFragment : Fragment() {
         val action = when (role) {
             UserRole.ADMIN -> R.id.action_loginFragment_to_adminDashboardFragment
             UserRole.AGENT -> R.id.action_loginFragment_to_agentDashboardFragment
-            else -> R.id.action_loginFragment_to_userDashboardFragment
+            else -> R.id.action_loginFragment_to_userDashboasrdFragment
         }
         findNavController().navigate(action)
     }

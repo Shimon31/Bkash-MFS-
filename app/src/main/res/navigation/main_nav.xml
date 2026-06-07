@@ -9,20 +9,43 @@
         android:id="@+id/loginFragment"
         android:name="com.androvate.mfsbkash.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userDashboasrdFragment"
+            app:destination="@id/userDashboasrdFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.androvate.mfsbkash.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userDashboasrdFragment"
         android:name="com.androvate.mfsbkash.UserDashboasrdFragment"
         android:label="fragment_user_dashboasrd"
-        tools:layout="@layout/fragment_user_dashboasrd" />
+        tools:layout="@layout/fragment_user_dashboasrd" >
+        <action
+            android:id="@+id/action_userDashboasrdFragment_to_sendMoneyFragment"
+            app:destination="@id/sendMoneyFragment" />
+        <action
+            android:id="@+id/action_userDashboasrdFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/sendMoneyFragment"
         android:name="com.androvate.mfsbkash.SendMoneyFragment"
         android:label="fragment_send_money"
         tools:layout="@layout/fragment_send_money" />
+    <fragment
+        android:id="@+id/cashoutFragment"
+        android:name="com.androvate.mfsbkash.CashoutFragment"
+        android:label="fragment_cashout"
+        tools:layout="@layout/fragment_cashout" />
 </navigation>

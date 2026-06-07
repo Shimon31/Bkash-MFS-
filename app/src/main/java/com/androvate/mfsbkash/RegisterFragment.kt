@@ -1,59 +1,89 @@
 package com.androvate.mfsbkash
 
+
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.Viewmodel.AuthViewModel
+import com.androvate.mfsbkash.databinding.FragmentRegisterBinding
+import com.androvate.mfsbkash.model.Resource
+import kotlin.getValue
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: AuthViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupObservers()
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
+        binding.btnRegister.setOnClickListener {
+            val name = binding.etName.text.toString().trim()
+            val phone = binding.etPhone.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            val confirmPass = binding.etConfirmPassword.text.toString().trim()
+            val pin = binding.etPin.text.toString().trim()
+
+            if (name.isEmpty()) { binding.tilName.error = "Enter name"; return@setOnClickListener }
+            if (phone.isEmpty() || phone.length < 11) { binding.tilPhone.error = "Enter valid phone (11 digits)"; return@setOnClickListener }
+            if (password.isEmpty() || password.length < 6) { binding.tilPassword.error = "Password must be 6+ chars"; return@setOnClickListener }
+            if (password != confirmPass) { binding.tilConfirmPassword.error = "Passwords don't match"; return@setOnClickListener }
+            if (pin.isEmpty() || pin.length != 5) { binding.tilPin.error = "PIN must be 5 digits"; return@setOnClickListener }
+
+            clearErrors()
+            viewModel.registerUser(name, phone, password, pin)
+        }
+
+        binding.ivBack.setOnClickListener { findNavController().navigateUp() }
+    }
+
+    private fun clearErrors() {
+        binding.tilName.error = null
+        binding.tilPhone.error = null
+        binding.tilPassword.error = null
+        binding.tilConfirmPassword.error = null
+        binding.tilPin.error = null
+    }
+
+    private fun setupObservers() {
+        viewModel.registerResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnRegister.isEnabled = false
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnRegister.isEnabled = true
+                    requireContext().showToast("Registration successful! Please login.")
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnRegister.isEnabled = true
+                    requireContext().showToast(result.message ?: "Registration failed")
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
