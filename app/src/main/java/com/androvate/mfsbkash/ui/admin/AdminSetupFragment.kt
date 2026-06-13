@@ -10,10 +10,11 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.androvate.mfsbkash.R
+import com.google.android.material.R as materialR
 import com.androvate.mfsbkash.data.model.Resource
 import com.androvate.mfsbkash.ui.auth.AuthViewModel
 import com.androvate.mfsbkash.utils.showToast
-import com.google.android.material.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
@@ -35,7 +36,7 @@ class AdminSetupFragment : Fragment() {
         val dp = resources.displayMetrics.density
 
         fun addField(hint: String, isPassword: Boolean = false): Pair<TextInputLayout, TextInputEditText> {
-            val til = TextInputLayout(ctx, null, R.attr.textInputOutlinedStyle).apply {
+            val til = TextInputLayout(ctx, null, materialR.attr.textInputOutlinedStyle).apply {
                 this.hint = hint
                 if (isPassword) endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
                 layoutParams = LinearLayout.LayoutParams(
